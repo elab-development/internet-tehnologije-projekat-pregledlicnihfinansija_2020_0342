@@ -44,11 +44,11 @@ class UserChallengeController extends Controller
 
        // $expenses = $challenges;
 
-        //return $this->paginateChallenges($challenges);
-       return new ChallengeCollection($challenges);
+        return $this->paginateChallenges($challenges);
+       //return new ChallengeCollection($challenges);
     }
 
-    /*protected function paginateChallenges($challenges)
+    protected function paginateChallenges($challenges)
 {
     // Priprema strukture odgovora za paginaciju
     return response()->json([
@@ -58,7 +58,7 @@ class UserChallengeController extends Controller
         'prev_page_url' => $challenges->previousPageUrl(),
         'total' => $challenges->total(),
     ]);
-}*/
+}
 
     public function findByUser($id)
     {

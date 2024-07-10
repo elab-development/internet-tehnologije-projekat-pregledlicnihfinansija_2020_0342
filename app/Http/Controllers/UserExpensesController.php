@@ -39,15 +39,15 @@ class UserExpensesController extends Controller
             }
         }
 
-        $expenses = $expensesQuery;
-        //$expenses = $expensesQuery->paginate(5);
+        //$expenses = $expensesQuery;
+        $expenses = $expensesQuery->paginate(5);
 
         if ($expenses->isEmpty()) {
             return Response::json(['Expense not found'], 404);
         }
  
-        //return $this->paginateExpenses($expenses);
-        return new UserExpensesCollection($expenses);
+        return $this->paginateExpenses($expenses);
+        //return new UserExpensesCollection($expenses);
     }
 
     public function findByUser($id)
@@ -67,7 +67,7 @@ class UserExpensesController extends Controller
         ]);
     }
 
-   /* protected function paginateExpenses($expenses)
+    protected function paginateExpenses($expenses)
 {
     // Priprema strukture odgovora za paginaciju
     return response()->json([
@@ -77,7 +77,7 @@ class UserExpensesController extends Controller
         'prev_page_url' => $expenses->previousPageUrl(),
         'total' => $expenses->total(),
     ]);
-}*/
+}
 
     public function store(Request $request)
     {

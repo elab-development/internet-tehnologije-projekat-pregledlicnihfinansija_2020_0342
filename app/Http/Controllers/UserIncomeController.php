@@ -39,7 +39,7 @@ class UserIncomeController extends Controller
         }
 
 
-        //$incomes = $incomes->cursorPaginate(5);
+        $incomes = $incomes->cursorPaginate(5);
 
 
         // Proveravamo da li su prihodi pronađeni
@@ -48,8 +48,8 @@ class UserIncomeController extends Controller
         }*/
 
         // Vraćamo prihode kao JSON sa paginacijom
-        //return $this->paginateIncomes($incomes);
-        return new UserIncomeCollection($incomes);
+        return $this->paginateIncomes($incomes);
+        //return new UserIncomeCollection($incomes);
     }
 
     public function findByUser($id)
@@ -70,7 +70,7 @@ class UserIncomeController extends Controller
     }
 
 
-   /* protected function paginateIncomes($incomes)
+    protected function paginateIncomes($incomes)
 {
     // Priprema strukture odgovora za paginaciju
     return response()->json([
@@ -80,7 +80,7 @@ class UserIncomeController extends Controller
         'prev_page_url' => $incomes->previousPageUrl(),
         'total' => $incomes->total(),
     ]);
-}*/
+}
 
 
     public function store(Request $request)
@@ -128,7 +128,7 @@ class UserIncomeController extends Controller
         return Response::json(['message' => 'Income successfully deleted']);
     }
 
- /*   public function paginacija(Request $request)
+    public function paginacija(Request $request)
     {
         $perPage = $request->input('per_page', 5);
 
@@ -142,7 +142,7 @@ class UserIncomeController extends Controller
             'data' => $incomes,
             'success' => true,
         ]);
-    }*/
+    }
 
     public function ukupnaPrimanjaPoKorisniku(Request $request)
     {
