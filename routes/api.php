@@ -109,8 +109,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/users/{id}/incomes', [UserIncomeController::class ,'findByUser']);
     // API route for logout user
     Route::post('/logout', [AuthController::class, 'logout']);
-/*
+
     Route::get('/pretraga', [UserExpensesController::class, 'searchByName']);
     Route::get('/paginacija', [UserIncomeController::class, 'paginacija']);
-    Route::get('/primanja', [UserIncomeController::class, 'ukupnaPrimanjaPoKorisniku']);*/
+    Route::get('/primanja', [UserIncomeController::class, 'ukupnaPrimanjaPoKorisniku']);
 });
