@@ -1,0 +1,25 @@
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+
+.main-container {
+    min-height: 80vh;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.accent {
+    color: gold;
+    -webkit-text-stroke: 1px rgb(197, 187, 50);
+}
+.intro h1 {
+    font-size: 4em;
+    margin-bottom: 1rem;
+}
