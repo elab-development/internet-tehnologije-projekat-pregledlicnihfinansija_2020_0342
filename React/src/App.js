@@ -4,6 +4,7 @@ import wave from './assets/wave.svg';
 import Navigation from "./components/Navigation";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./pages/Home";
+import Transactions from "./pages/Transactions";
 import Register from "./pages/Register";
 import {Container} from "react-bootstrap";
 
@@ -16,6 +17,7 @@ function App() {
                 <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/transactions" element={<Transactions />} />
                 </Routes>
             </BrowserRouter>
         </Container>
