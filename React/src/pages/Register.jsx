@@ -1,11 +1,16 @@
 import "../assets/css/Register.css";
 import Slika from "../assets/formaslika.png";
 import axiosInstance from "../server/axiosInstance";
+import useForm from "../hooks/useForm";
 import {useEffect, useState} from "react";
 import {Col, Container, Row} from "react-bootstrap";
 
 const Register = () => {
-
+    const [values, handleChange] = useForm({
+        userName: "",
+        email: "",
+        password: "",
+    });
 
     const [showMessage, setShowMessage] = useState(false);
     const [message, setMessage] = useState("");
