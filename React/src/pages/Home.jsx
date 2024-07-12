@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {Link} from "react-router-dom";
+import KursEuraKartica from "../components/KursEuraKartica";
 import axiosInstance from "../server/axiosInstance";
 
 const Home = () => {
@@ -33,6 +34,9 @@ const Home = () => {
                     Planiranje troškova je tajna finansijske slobode. Uživaj slobodu već
                     danas.
                 </p>
+                {
+                    token && <KursEuraKartica />
+                }
                 {
                     !token && randomUser && (
                         <div className="text-center">
