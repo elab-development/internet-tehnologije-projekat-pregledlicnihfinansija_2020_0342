@@ -8,6 +8,7 @@ import Transactions from "./pages/Transactions";
 import Register from "./pages/Register";
 import Challenges from "./pages/Challenges";
 import {Container} from "react-bootstrap";
+import Tabela from "./pages/Tabela";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/tabela" element={<Tabela />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/transactions" element={<Transactions />} />
                 <Route path="/challenges" element={<Challenges />} />

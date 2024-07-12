@@ -34,6 +34,8 @@ const Navigation = () => {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href="/">Pocetna</Nav.Link>
+                            <Nav.Link href="/tabela">Tabela</Nav.Link>
+                            
                             {
                                 !token && (
                                     <Nav.Link href="/register">Login</Nav.Link>
