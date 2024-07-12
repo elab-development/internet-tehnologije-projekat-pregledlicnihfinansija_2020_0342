@@ -27,6 +27,19 @@ const Challenges = () => {
         });
     }
 
+
+    const handleDelete = (id) => {
+        axiosInstance.delete(`/challenges/${id}`).then(response => {
+            console.log(response.data);
+            setForceUpdate(!forceUpdate);
+            updateUser();
+            setChallenges(response.data.data);
+            setFilteredChallenges(response.data.data);
+            setMessage("Uspesno obrisan izazov");
+        }).catch(error => {
+            console.error("Došlo je do greške prilikom brisanja izazova:", error);
+        });
+    };
     const dodajIzazov = () => {
         console.log(values);
         axiosInstance.post("/challenges", {
@@ -130,6 +143,15 @@ const Challenges = () => {
                 </Col>
                 <Col md={8}>
                     <h3 className="text-center">Moji izazovi</h3>
+
+                    <Form.Group>
+                        <Form.Label>Prikazi:</Form.Label>
+                        <Form.Select onChange={filtriraj}>
+                            <option value="1">Svi</option>
+                            <option value="2">Ispunjeni</option>
+                            <option value="3">Neispunjeni</option>
+                        </Form.Select>
+                    </Form.Group>
 
                     {
                         filteredChallenges && filteredChallenges.map((challenge) => {
