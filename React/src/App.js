@@ -6,6 +6,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./pages/Home";
 import Transactions from "./pages/Transactions";
 import Register from "./pages/Register";
+import Challenges from "./pages/Challenges";
 import {Container} from "react-bootstrap";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/transactions" element={<Transactions />} />
+                <Route path="/challenges" element={<Challenges />} />
                 </Routes>
             </BrowserRouter>
         </Container>
