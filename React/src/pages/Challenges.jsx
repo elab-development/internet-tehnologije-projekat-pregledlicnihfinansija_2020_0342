@@ -6,8 +6,11 @@ import useForm from "../hooks/useForm";
 
 const Challenges = () => {
     const [message, setMessage] = useState("");
+    const [challenges, setChallenges] = useState([]);
+    const [filteredChallenges, setFilteredChallenges] = useState([]);
     const user = JSON.parse(window.sessionStorage.getItem('user'));
     const [challengeCategories, setChallengeCategories] = useState([]);
+    const [forceUpdate, setForceUpdate] = useState(false);
     const [values, handleChange] = useForm({
         challengeName: "",
         challenge_category_id: 1,
@@ -38,6 +41,8 @@ const Challenges = () => {
                 setMessage(response.data.message);
                 axiosInstance.get("/users/"+ user.id +"/challenges").then((response) => {
                     console.log(response.data.data);
+                    setChallenges(response.data.data);
+                    setFilteredChallenges(response.data.data);
                 }).catch((error) => {
                     console.error(error);
                 });
@@ -61,10 +66,22 @@ const Challenges = () => {
         });
     }, []);
 
+    const filtriraj = (e) => {
+
+        if(e.target.value === "1"){
+            setFilteredChallenges(challenges);
+        }else if(e.target.value === "2"){
+            setFilteredChallenges(challenges.filter((challenge) => challenge.status === true));
+        }else if (e.target.value === "3"){
+            setFilteredChallenges(challenges.filter((challenge) => challenge.status !== true));
+        }
+    }
 
     useEffect(() => {
         axiosInstance.get("/users/"+ user.id +"/challenges").then((response) => {
             console.log(response.data);
+            setChallenges(response.data.data);
+            setFilteredChallenges(response.data.data);
         }).catch((error) => {
             console.error(error);
         });
@@ -114,12 +131,13 @@ const Challenges = () => {
                 <Col md={8}>
                     <h3 className="text-center">Moji izazovi</h3>
 
-                    <Form.Group>
-                        <Form.Label>Prikazi:</Form.Label>
-                    </Form.Group>
+                    {
+                        filteredChallenges && filteredChallenges.map((challenge) => {
                             return (
                                 <JedanIzazov key={challenge.id} izazov={challenge} />
                             );
+                        })
+                    }
                 </Col>
             </Row>
         </div>
