@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, Col, Form, Row, Table} from "react-bootstrap";
 import axiosInstance from "../server/axiosInstance";
+import {CSVLink} from "react-csv";
 import useForm from "../hooks/useForm";
 
 const Transactions = () => {
@@ -11,6 +12,8 @@ const Transactions = () => {
     const [expenseCategories, setExpenseCategories] = useState([]);
     const [forceUpdate, setForceUpdate] = useState(false);
     const [message, setMessage] = useState("");
+    const [podaciDownloadTrosak, setPodaciDownloadTrosak] = useState([]);
+    const [podaciDownloadUplata, setPodaciDownloadUplata] = useState([]);
 
     const [values, handleChange] = useForm({
         expenseName: "",
@@ -51,6 +54,46 @@ const Transactions = () => {
             console.error(error);
         });
     }
+
+    useEffect(() => {
+
+        axiosInstance.get("/users/" + user.id + "/expenses").then((response) => {
+            console.log(response.data.data);
+            let dataDownload = response.data.data.map((expense) => {
+                return {
+                    Naziv: expense.expenseName,
+                    Datum: expense.expenseDate,
+                    Iznos: expense.expenseValue,
+                    Kategorija: expense.expenseCategory.categoryName
+                }
+            });
+            setPodaciDownloadTrosak(dataDownload);
+            setExpenses(response.data.data);
+        }).catch((error) => {
+            console.error(error);
+        });
+    }, [forceUpdate, user.id]);
+
+    useEffect(() => {
+
+            axiosInstance.get("/users/" + user.id + "/incomes").then((response) => {
+                console.log(response.data.data);
+                let dataDownload = response.data.data.map((income) => {
+                    return {
+                        Naziv: income.incomeName,
+                        Datum: income.incomeDate,
+                        Iznos: income.incomeValue,
+                        Kategorija: income.incomeCategory.categoryName
+                    }
+                });
+
+                setPodaciDownloadUplata(dataDownload);
+                setIncomes(response.data.data);
+            }).catch((error) => {
+                console.error(error);
+            });
+    }, [forceUpdate, user.id]);
+
     useEffect(() => {
         axiosInstance.get("/income_categories").then((response) => {
             console.log(response.data);
@@ -110,6 +153,28 @@ const Transactions = () => {
                 <Col className="m-3 text-center">
                     <h1>Moje transakcije</h1>
                     <p>{message}</p>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="text-center">
+                    <CSVLink
+                        data={podaciDownloadTrosak}
+                        filename={"troskovi.csv"}
+                        className="btn btn-danger m-2"
+                        target="_blank"
+                    >
+                       <FaDownload /> Skini tabelu troskova
+                    </CSVLink>
+
+                    <CSVLink
+                        data={podaciDownloadUplata}
+                        filename={"uplate.csv"}
+                        className="btn btn-success m-2"
+                        target="_blank"
+                    >
+                        <FaDownload /> Skini tabelu uplata
+                    </CSVLink>
+
                 </Col>
             </Row>
             <Row>
