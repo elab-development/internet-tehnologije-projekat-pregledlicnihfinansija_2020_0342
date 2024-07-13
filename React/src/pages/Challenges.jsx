@@ -26,8 +26,6 @@ const Challenges = () => {
             console.error(error);
         });
     }
-
-
     const handleDelete = (id) => {
         axiosInstance.delete(`/challenges/${id}`).then(response => {
             console.log(response.data);
@@ -156,7 +154,7 @@ const Challenges = () => {
                     {
                         filteredChallenges && filteredChallenges.map((challenge) => {
                             return (
-                                <JedanIzazov key={challenge.id} izazov={challenge} />
+                                <JedanIzazov key={challenge.id} izazov={challenge} onDelete={handleDelete} />
                             );
                         })
                     }
