@@ -35,7 +35,6 @@ const Navigation = () => {
                         <Nav className="me-auto">
                             <Nav.Link href="/">Pocetna</Nav.Link>
                             <Nav.Link href="/tabela">Tabela</Nav.Link>
-                            
                             {
                                 !token && (
                                     <Nav.Link href="/register">Login</Nav.Link>
@@ -47,6 +46,12 @@ const Navigation = () => {
                                         <Nav.Link href="/transactions">Transakcije</Nav.Link>
                                         <Nav.Link href="/challenges">Izazovi</Nav.Link>
                                     </>
+                                )
+                            }
+
+                            {
+                                admin && (
+                                    <Nav.Link href="/admin">Admin</Nav.Link>
                                 )
                             }
                             {
