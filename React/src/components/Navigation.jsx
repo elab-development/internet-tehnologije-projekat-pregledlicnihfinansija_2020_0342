@@ -44,6 +44,7 @@ const Navigation = () => {
                             {
                                 token && (
                                     <>
+                                        <Nav.Link href="/transactions">Transakcije</Nav.Link>
                                         <Nav.Link href="/challenges">Izazovi</Nav.Link>
                                     </>
                                 )

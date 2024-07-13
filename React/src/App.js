@@ -9,7 +9,7 @@ import Register from "./pages/Register";
 import Challenges from "./pages/Challenges";
 import {Container} from "react-bootstrap";
 import Tabela from "./pages/Tabela";
-
+import Admin from "./pages/Admin";
 function App() {
   return (
       <div className="layout">
@@ -22,6 +22,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/transactions" element={<Transactions />} />
                 <Route path="/challenges" element={<Challenges />} />
+                <Route path="/admin" element={<Admin />} />
                 </Routes>
             </BrowserRouter>
         </Container>
