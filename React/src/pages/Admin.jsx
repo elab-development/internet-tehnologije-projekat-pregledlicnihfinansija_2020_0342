@@ -5,9 +5,8 @@ import axiosInstance from "../server/axiosInstance";
 const Admin = () => {
     const [message, setMessage] = useState("");
     const [expenses, setExpenses] = useState([]);
-    const [incomes, setIncomes] = useState([]);
     const [forceUpdate, setForceUpdate] = useState(false);
-    
+    const [pretraga, setPretraga] = useState("");
 
     const obrisiTrosak = (id) => {
         axiosInstance.delete("/expenses/" + id).then((response) => {
@@ -28,6 +27,16 @@ const Admin = () => {
             console.error(error);
         });
     }
+
+    useEffect(() => {
+        axiosInstance.get("/pretraga?name=" + pretraga).then((response) => {
+            console.log(response.data.data);
+            setExpenses(response.data.data);
+        }).catch((error) => {
+            console.error(error);
+        });
+    }, [pretraga, forceUpdate]);
+
 
     return (
         <div>
@@ -78,6 +87,13 @@ const Admin = () => {
             <Row>
                 <Col>
                     <h3 className="text-center">Pretraga Troskova</h3>
+                    <Form.Group className="mt-3">
+                        <Form.Control placeholder="Pretrazi troskove" type="text" onChange={(event) => {
+                            if (event.target.value.length > 2 || event.target.value === "") {
+                                setPretraga(event.target.value);
+                            }
+                        }}/>
+                    </Form.Group>
                     <Table hover className="mt-3">
                         <thead>
                         <tr>
