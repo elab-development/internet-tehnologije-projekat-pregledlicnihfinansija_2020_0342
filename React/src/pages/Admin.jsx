@@ -5,9 +5,11 @@ import axiosInstance from "../server/axiosInstance";
 const Admin = () => {
     const [message, setMessage] = useState("");
     const [expenses, setExpenses] = useState([]);
+    const [filteredExpenses, setFilteredExpenses] = useState([]);
+    const [incomes, setIncomes] = useState([]);
     const [forceUpdate, setForceUpdate] = useState(false);
     const [pretraga, setPretraga] = useState("");
-
+    
     const obrisiTrosak = (id) => {
         axiosInstance.delete("/expenses/" + id).then((response) => {
             console.log(response.data);
@@ -27,17 +29,7 @@ const Admin = () => {
             console.error(error);
         });
     }
-
-    useEffect(() => {
-        axiosInstance.get("/pretraga?name=" + pretraga).then((response) => {
-            console.log(response.data.data);
-            setExpenses(response.data.data);
-        }).catch((error) => {
-            console.error(error);
-        });
-    }, [pretraga, forceUpdate]);
-
-
+    
     return (
         <div>
             <Row>
