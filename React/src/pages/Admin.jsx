@@ -4,12 +4,46 @@ import axiosInstance from "../server/axiosInstance";
 
 const Admin = () => {
     const [message, setMessage] = useState("");
+    const [url, setUrl] = useState("/paginacija");
     const [expenses, setExpenses] = useState([]);
     const [filteredExpenses, setFilteredExpenses] = useState([]);
     const [incomes, setIncomes] = useState([]);
+    const [links, setLinks] = useState([]);
     const [forceUpdate, setForceUpdate] = useState(false);
-    const [pretraga, setPretraga] = useState("");
-    
+   const [pretraga, setPretraga] = useState("");
+
+    useEffect(() => {
+        axiosInstance.get(url).then((response) => {
+            console.log(response.data.data);
+            setIncomes(response.data.data.data);
+            if(links.length === 0){
+                let linksData = response.data.data.links;
+                let linkDataMapped = linksData.map((link) => {
+                    let url = link.url;
+                    let label = link.label;
+                    if (url === null) {
+                        url = "/paginacija";
+                    }
+
+                    if (label.includes("Next")) {
+                        label = "Sledeca";
+                    }
+
+                    if (label.includes("Previous")) {
+                        label = "Prethodna";
+                    }
+                    return {
+                        label: label,
+                        url: url
+                    }
+                });
+                setLinks(linkDataMapped);
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+    }, [links, url, forceUpdate]);
+
     const obrisiTrosak = (id) => {
         axiosInstance.delete("/expenses/" + id).then((response) => {
             console.log(response.data);
@@ -29,7 +63,17 @@ const Admin = () => {
             console.error(error);
         });
     }
-    
+
+    useEffect(() => {
+        axiosInstance.get("/pretraga?name=" + pretraga).then((response) => {
+            console.log(response.data.data);
+            setExpenses(response.data.data);
+        }).catch((error) => {
+            console.error(error);
+        });
+    }, [pretraga, forceUpdate]);
+
+
     return (
         <div>
             <Row>
@@ -74,6 +118,19 @@ const Admin = () => {
                         }
                         </tbody>
                     </Table>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="m-1">
+                {
+                    links && links.map((link, index) => {
+                        return (
+                                <button key={index} onClick={() => {
+                                    setUrl(link.url);
+                                }} className="btn btn-primary m-1">{link.label}</button>
+                        );
+                    })
+                }
                 </Col>
             </Row>
             <Row>
