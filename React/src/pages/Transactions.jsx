@@ -11,6 +11,7 @@ const Transactions = () => {
     const user = JSON.parse(window.sessionStorage.getItem('user'));
     const [incomeCategories, setIncomeCategories] = useState([]);
     const [expenseCategories, setExpenseCategories] = useState([]);
+    //koristi se kao pomocna promenljiva za ponovno uzimanje podataka
     const [forceUpdate, setForceUpdate] = useState(false);
     const [message, setMessage] = useState("");
     const [podaciDownloadTrosak, setPodaciDownloadTrosak] = useState([]);
@@ -58,7 +59,6 @@ const Transactions = () => {
     }
 
     useEffect(() => {
-
         axiosInstance.get("/users/" + user.id + "/expenses").then((response) => {
             console.log(response.data.data);
             let dataDownload = response.data.data.map((expense) => {
@@ -89,7 +89,6 @@ const Transactions = () => {
                         Kategorija: income.incomeCategory.categoryName
                     }
                 });
-
                 setPodaciDownloadUplata(dataDownload);
                 setIncomes(response.data.data);
             }).catch((error) => {

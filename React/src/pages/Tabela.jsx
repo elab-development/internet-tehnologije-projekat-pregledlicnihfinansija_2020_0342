@@ -5,12 +5,6 @@ import {Col, Row, Table} from "react-bootstrap";
 const Tabela = () => {
     const [podaci, setPodaci] = useState([]);
 
-    const niz = [1, 2, 3, 4, 5];
-
-    const mojNiz = niz.map((element) => {
-        return element * 2;
-    })
-
     useEffect(() => {
         axiosInstance.get('/tabela').then((response) => {
             console.log(response.data);

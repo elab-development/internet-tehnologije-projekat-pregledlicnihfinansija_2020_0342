@@ -15,7 +15,7 @@ const JedanIzazov = props => {
     return (
         <>
             <Alert variant={variant} className="mt-3">
-                <h3>{izazov.challengeName} ({izazov.challengeCategory.categoryName})</h3>
+                <h3>{props.izazov.challengeName} ({izazov.challengeCategory.categoryName})</h3>
                 <hr/>
                 <p>Pocetak: {izazov.startDate} <br/>  Kraj: {izazov.endDate}</p>
                 <p>Iznos {izazov.value} din</p>

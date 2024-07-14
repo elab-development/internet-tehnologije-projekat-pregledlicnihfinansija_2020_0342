@@ -4,9 +4,14 @@ import KursEuraKartica from "../components/KursEuraKartica";
 import axiosInstance from "../server/axiosInstance";
 
 const Home = () => {
+    
     const token = window.sessionStorage.getItem('access_token');
+    //useState koristimo kao container za objekte koje cemo vise puta koristiti kroz stranicu
     const [randomUser, setRandomUser] = React.useState(null);
 
+
+    //okida se, na svako malo 
+    //[]-uslov 
     useEffect(() => {
         axiosInstance.get('https://randomuser.me/api/').then((response) => {
             console.log(response.data.results[0]);
@@ -28,7 +33,7 @@ const Home = () => {
         <>
             <div className="intro text-center">
                 <h1 className="text-center">
-                    <span className="accent">Orjentišite</span> svoje finasnije
+                    <span className="accent">Orijentišite</span> svoje finasnije
                 </h1>
                 <p className="text-center">
                     Planiranje troškova je tajna finansijske slobode. Uživaj slobodu već

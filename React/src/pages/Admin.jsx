@@ -81,7 +81,7 @@ const Admin = () => {
             let data = response.data.data;
             console.log("grafik");
 
-            let chartDataGrafik = [['Korsinik', 'Iznos']];
+            let chartDataGrafik = [['Korisnik', 'Iznos']];
             data.forEach((income) => {
                 chartDataGrafik.push([income.username, parseFloat(income.totalIncome)]);
             });
