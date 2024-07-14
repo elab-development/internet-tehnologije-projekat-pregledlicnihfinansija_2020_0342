@@ -10,13 +10,15 @@ const Challenges = () => {
     const [filteredChallenges, setFilteredChallenges] = useState([]);
     const user = JSON.parse(window.sessionStorage.getItem('user'));
     const [challengeCategories, setChallengeCategories] = useState([]);
-    const [forceUpdate, setForceUpdate] = useState(false);
     const [values, handleChange] = useForm({
         challengeName: "",
         challenge_category_id: 1,
         endDate: "",
         value: 0,
     });
+
+   const [forceUpdate, setForceUpdate] = useState(false);
+
     const updateUser = () => {
         axiosInstance.get("/profile").then((response) => {
             console.log('user data');
@@ -26,18 +28,23 @@ const Challenges = () => {
             console.error(error);
         });
     }
+
+
     const handleDelete = (id) => {
         axiosInstance.delete(`/challenges/${id}`).then(response => {
             console.log(response.data);
-            setForceUpdate(!forceUpdate);
-            updateUser();
-            setChallenges(response.data.data);
-            setFilteredChallenges(response.data.data);
-            setMessage("Uspesno obrisan izazov");
+            if (response.data.success) {
+                setMessage("Uspesno obrisan izazov");
+                updateUser();
+                setForceUpdate(!forceUpdate);
+            } else {
+                setMessage(response.data.message);
+            }
         }).catch(error => {
             console.error("Došlo je do greške prilikom brisanja izazova:", error);
         });
     };
+
     const dodajIzazov = () => {
         console.log(values);
         axiosInstance.post("/challenges", {
@@ -50,14 +57,8 @@ const Challenges = () => {
 
             if (response.data.success) {
                 setMessage(response.data.message);
-                axiosInstance.get("/users/"+ user.id +"/challenges").then((response) => {
-                    console.log(response.data.data);
-                    setChallenges(response.data.data);
-                    setFilteredChallenges(response.data.data);
-                }).catch((error) => {
-                    console.error(error);
-                });
-            }else{
+                setForceUpdate(!forceUpdate);
+            } else {
                 setMessage(response.data.message);
             }
 
@@ -66,7 +67,6 @@ const Challenges = () => {
             setMessage(error.response.data.message);
         });
     }
-
 
     useEffect(() => {
         axiosInstance.get("/challenge_categories").then((response) => {
@@ -78,25 +78,24 @@ const Challenges = () => {
     }, []);
 
     const filtriraj = (e) => {
-
-        if(e.target.value === "1"){
+        if (e.target.value === "1") {
             setFilteredChallenges(challenges);
-        }else if(e.target.value === "2"){
+        } else if (e.target.value === "2") {
             setFilteredChallenges(challenges.filter((challenge) => challenge.status === true));
-        }else if (e.target.value === "3"){
+        } else if (e.target.value === "3") {
             setFilteredChallenges(challenges.filter((challenge) => challenge.status !== true));
         }
     }
 
     useEffect(() => {
-        axiosInstance.get("/users/"+ user.id +"/challenges").then((response) => {
+        axiosInstance.get("/users/" + user.id + "/challenges").then((response) => {
             console.log(response.data);
             setChallenges(response.data.data);
             setFilteredChallenges(response.data.data);
         }).catch((error) => {
             console.error(error);
         });
-    }, []);
+    }, [forceUpdate]);
 
     return (
         <div>
@@ -116,7 +115,8 @@ const Challenges = () => {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Kategorija</Form.Label>
-                        <Form.Select onChange={handleChange} name="challenge_category_id" aria-label="Default select example">
+                        <Form.Select onChange={handleChange} name="challenge_category_id"
+                                     aria-label="Default select example">
                             {
                                 challengeCategories && challengeCategories.map((category) => {
                                     return (
@@ -135,7 +135,7 @@ const Challenges = () => {
                         <Form.Label>Iznos</Form.Label>
                         <Form.Control onChange={handleChange} type="number" name="value"/>
                     </Form.Group>
-                    <hr />
+                    <hr/>
                     <button className="btn btn-primary" onClick={dodajIzazov}>Dodaj</button>
 
                 </Col>
@@ -152,11 +152,15 @@ const Challenges = () => {
                     </Form.Group>
 
                     {
-                        filteredChallenges && filteredChallenges.map((challenge) => {
-                            return (
-                                <JedanIzazov key={challenge.id} izazov={challenge} onDelete={handleDelete} />
-                            );
-                        })
+                        filteredChallenges && filteredChallenges.length > 0 ? (
+                            filteredChallenges.map((challenge) => {
+                                return (
+                                    <JedanIzazov key={challenge.id} izazov={challenge} onDelete={handleDelete}/>
+                                );
+                            })
+                        ) : (
+                            <p>Nema izazova za prikazivanje</p>
+                        )
                     }
                 </Col>
             </Row>

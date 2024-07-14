@@ -162,13 +162,13 @@ class UserChallengeController extends Controller
         return new ChallengeResource($challenge);
     }
 
-
-        public function destroy(Challenge $challenge)
+    public function destroy(Challenge $challenge)
     {
         $challenge->delete();
 
-        return Response::json(['message' => 'Challenge deleted successfully']);
+        return Response::json(['message' => 'Challenge deleted successfully', 'success'=> true]);
     }
+
 
 
 function checkChallengeCompletion(Challenge $challenge)
