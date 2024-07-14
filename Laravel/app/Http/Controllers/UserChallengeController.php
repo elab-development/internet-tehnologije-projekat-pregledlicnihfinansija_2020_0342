@@ -171,44 +171,44 @@ class UserChallengeController extends Controller
     }
 
 
-// function checkChallengeCompletion(Challenge $challenge)
-// {
-//     $categoryName = $challenge->category->categoryName;
-//     $startDate = $challenge->startDate;
-//     $endDate = $challenge->endDate;
-//     $challengeAmount = $challenge->value;
-//     $userID = $challenge->userID;
+function checkChallengeCompletion(Challenge $challenge)
+{
+    $categoryName = $challenge->category->categoryName;
+    $startDate = $challenge->startDate;
+    $endDate = $challenge->endDate;
+    $challengeAmount = $challenge->value;
+    $userID = $challenge->userID;
 
-//     $expenses = \App\Models\Expense::where('user_id', $userID)
-//                                     ->whereBetween('expenseDate', [$startDate, $endDate])
-//                                     ->sum('expenseValue');
+    $expenses = \App\Models\Expense::where('user_id', $userID)
+                                    ->whereBetween('expenseDate', [$startDate, $endDate])
+                                    ->sum('expenseValue');
 
-//     $totalIncomes = 0;
+    $totalIncomes = 0;
 
-//     if ($categoryName === 'Troškovna trka') {
-//         // Provera da li je korisnik potrošio dovoljno
-//         if ($expenses >= $challengeAmount) {
-//             $challenge->status = true;
-//             $challenge->save();
-//         }
-//     } elseif ($categoryName === 'Ograničeni horizont') {
-//         // Provera da li je korisnik potrošio više od dozvoljenog
-//         if ($expenses <= $challengeAmount) {
-//             $challenge->status = true;
-//             $challenge->save();
-//         }
-//     } elseif ($categoryName=== 'Finansijski fitnes') {
-//         // Provera za kategoriju 'Finansijski fitnes'
-//         $totalIncomes = \App\Models\Income::where('user_id', $userID)
-//                               ->whereBetween('incomeDate', [$challenge->startDate, $challenge->endDate])
-//                               ->sum('incomeValue');
+    if ($categoryName === 'Troškovna trka') {
+        // Provera da li je korisnik potrošio dovoljno
+        if ($expenses >= $challengeAmount) {
+            $challenge->status = true;
+            $challenge->save();
+        }
+    } elseif ($categoryName === 'Ograničeni horizont') {
+        // Provera da li je korisnik potrošio više od dozvoljenog
+        if ($expenses <= $challengeAmount) {
+            $challenge->status = true;
+            $challenge->save();
+        }
+    } elseif ($categoryName=== 'Finansijski fitnes') {
+        // Provera za kategoriju 'Finansijski fitnes'
+        $totalIncomes = \App\Models\Income::where('user_id', $userID)
+                              ->whereBetween('incomeDate', [$challenge->startDate, $challenge->endDate])
+                              ->sum('incomeValue');
 
-//         if ($totalIncomes >= $challenge->value) {
-//             $challenge->status = true;
-//             $challenge->save();
-//         }
-//     }
-// }
+        if ($totalIncomes >= $challenge->value) {
+            $challenge->status = true;
+            $challenge->save();
+        }
+    }
+}
 
     public function uspesniIzazoviPoKorisniku(Request $request)
     {
