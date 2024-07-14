@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, Col, Form, Row, Table} from "react-bootstrap";
 import axiosInstance from "../server/axiosInstance";
-import {CSVLink} from "react-csv";
 import useForm from "../hooks/useForm";
+import {CSVLink} from "react-csv";
+import {FaDownload} from "react-icons/fa";
 
 const Transactions = () => {
     const [expenses, setExpenses] = useState([]);
@@ -33,6 +34,7 @@ const Transactions = () => {
             console.error(error);
         });
     }
+
     const obrisiTrosak = (id) => {
         axiosInstance.delete("/expenses/" + id).then((response) => {
             console.log(response.data);
@@ -72,6 +74,7 @@ const Transactions = () => {
         }).catch((error) => {
             console.error(error);
         });
+
     }, [forceUpdate, user.id]);
 
     useEffect(() => {

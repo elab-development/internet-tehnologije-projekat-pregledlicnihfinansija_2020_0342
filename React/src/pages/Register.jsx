@@ -1,7 +1,7 @@
 import "../assets/css/Register.css";
 import Slika from "../assets/formaslika.png";
-import axiosInstance from "../server/axiosInstance";
 import useForm from "../hooks/useForm";
+import axiosInstance from "../server/axiosInstance";
 import {useEffect, useState} from "react";
 import {Col, Container, Row} from "react-bootstrap";
 

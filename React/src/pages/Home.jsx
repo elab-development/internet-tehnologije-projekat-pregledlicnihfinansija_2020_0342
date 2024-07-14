@@ -6,7 +6,7 @@ import axiosInstance from "../server/axiosInstance";
 const Home = () => {
     const token = window.sessionStorage.getItem('access_token');
     const [randomUser, setRandomUser] = React.useState(null);
-    
+
     useEffect(() => {
         axiosInstance.get('https://randomuser.me/api/').then((response) => {
             console.log(response.data.results[0]);
