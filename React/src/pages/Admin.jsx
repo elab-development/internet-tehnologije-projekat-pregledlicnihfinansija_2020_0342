@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Col, Form, Row, Table} from "react-bootstrap";
 import axiosInstance from "../server/axiosInstance";
+import {Chart} from "react-google-charts";
 
 const Admin = () => {
     const [message, setMessage] = useState("");
@@ -10,7 +11,8 @@ const Admin = () => {
     const [incomes, setIncomes] = useState([]);
     const [links, setLinks] = useState([]);
     const [forceUpdate, setForceUpdate] = useState(false);
-   const [pretraga, setPretraga] = useState("");
+    const [pretraga, setPretraga] = useState("");
+    const [chartData, setChartData] = useState([]);
 
     useEffect(() => {
         axiosInstance.get(url).then((response) => {
@@ -73,6 +75,22 @@ const Admin = () => {
         });
     }, [pretraga, forceUpdate]);
 
+    useEffect(() => {
+        axiosInstance.get("/primanja").then((response) => {
+            console.log(response.data.data);
+            let data = response.data.data;
+            console.log("grafik");
+
+            let chartDataGrafik = [['Korsinik', 'Iznos']];
+            data.forEach((income) => {
+                chartDataGrafik.push([income.username, parseFloat(income.totalIncome)]);
+            });
+            console.log(chartDataGrafik);
+            setChartData(chartDataGrafik);
+        }).catch((error) => {
+            console.error(error);
+        });
+    }, []);
 
     return (
         <div>
@@ -175,6 +193,28 @@ const Admin = () => {
                         }
                         </tbody>
                     </Table>
+                </Col>
+            </Row>
+
+            <Row>
+                <Col>
+                    <h3 className="text-center">Grafikon</h3>
+                    {
+                        chartData && (
+                            <Chart
+                                chartType="Histogram"
+                                width="100%"
+                                height="400px"
+                                data={chartData}
+                                options={
+                                    {
+                                        title: 'Prilivi po korisniku',
+                                        legend: { position: 'none' },
+                                    }
+                                }
+                            />
+                        )
+                    }
                 </Col>
             </Row>
         </div>
